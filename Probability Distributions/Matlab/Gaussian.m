@@ -142,4 +142,4 @@ sigma2 = 10;
 
 samples2 = normrnd(mu2, sigma2, N, 1);
 fprintf('mean2=%.2f, std2=%.2f, var2=%.2f\n', ...
-   mean(samples+samples2), std(samples+samples2), var(samples+samples2)))
+   mean(samples+samples2), std(samples+samples2), var(samples+samples2))
