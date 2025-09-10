@@ -21,7 +21,7 @@ outcome = binornd(n,p);
 
 % Print out the results
 fprintf('%d successes out of %d trials, simulated p = %.2f, empirical p = %.2f\n', ...
-   n, outcome, p, outcome/n))
+   n, outcome, p, outcome/n)
 
 % The full probability distribution describes the probabilty of obtaining
 %  each possible number of successes (k), given n and p. If we set n=10,
@@ -30,6 +30,7 @@ fprintf('%d successes out of %d trials, simulated p = %.2f, empirical p = %.2f\n
 p = 0.7;
 n = 10;       % number of "trials" per "experiment"
 NumExperiments = 1000;     % number of "experiments"
+N = NumExperiments;
 outcomes = binornd(n,p,NumExperiments,1);
 
 % Make histogram of all possible outcomes. We want bins centered on whole
@@ -88,7 +89,7 @@ for p = 0.1:0.1:0.9
       axis([0 10 0 0.45])
       
       % Wait
-      pause(0.15);
+      pause(0.20);
    end
 end
 

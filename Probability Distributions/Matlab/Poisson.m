@@ -96,7 +96,10 @@ for n = round(linspace(1,100,20))
    ylabel('Probability');
    legend('Simulated', 'Theoretical binomial', 'Theoretical Poisson')
 
-   r = input('Press <return> to continue')
+   % Comment this code out and update such that automated pause instead of
+   % waiting for keyboard input
+   % r = input('Press <return> to continue')
+   pause(1)
 end
 
 % An interesting property of a Poisson distributon is that var = mean
