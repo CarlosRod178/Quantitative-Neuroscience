@@ -1,6 +1,9 @@
-%[text] # Mutliple Comparisons
-%[text] ## Parts 1 and 2
-%[text] The results from the Bonferroni are consistently smaller than those of either the uncorrected form or the Benjamini-Hochberg form, in agreement with its conservative nature. This difference seems to extend as the distance between mu increases.
+%% Mutliple Comparisons
+%% Parts 1 and 2
+% The results from the Bonferroni are consistently smaller than those of either 
+% the uncorrected form or the Benjamini-Hochberg form, in agreement with its conservative 
+% nature. This difference seems to extend as the distance between mu increases.
+
 % Code taken from tutorial values
 MU1 = 1;
 MU2 = 2;
@@ -19,12 +22,12 @@ X2 = normrnd(MU2, SIGMA, sampSize, n);
 
 % Determine the proportion of results that fall below desired alpha value
 statSigpU = sum(pU<alpha) / length(pU) * 100;
-fprintf('percent significant %.2f%% (baseline)', statSigpU) %[output:24b0b95f]
+fprintf('percent significant %.2f%% (baseline)', statSigpU)
 
 % Apply the Bonferroni correction
 alphaB = alpha/n;
 statSigpU_B = sum(pU<alphaB) / length(pU) * 100;
-fprintf('percent significant %.2f%% (Bonferroni)', statSigpU_B) %[output:1d166bc8]
+fprintf('percent significant %.2f%% (Bonferroni)', statSigpU_B)
 
 % Apply the Benjamini-Hochberg correction
 qBH = alpha;
@@ -35,28 +38,12 @@ critVals = (1:length(sortedpU)) ./n .* qBH;
 % to its associated ranked p value. Throw sanity check to make sure within
 % brackets, then make the new criterion value.
 newCritIndex = find(sortedpU <= critVals, 1, 'last');
-if isempty(newCritIndex) | newCritIndex <= 0 %[output:group:301c2768]
+if isempty(newCritIndex) | newCritIndex <= 0
     % Flags instances when there is no satisfied ranked p less than its
     % associated critical value. 
     disp('No significant values found')
 else
     alphaBH = sortedpU(newCritIndex);
     statSigpU_BH = sum(pU<alphaBH) / length(pU) * 100;
-    fprintf('percent significant %.2f%% (Benjamini-Hochberg)', statSigpU_BH) %[output:3a89adc1]
-end %[output:group:301c2768]
-
-
-%[appendix]{"version":"1.0"}
-%---
-%[metadata:view]
-%   data: {"layout":"onright","rightPanelPercent":43.2}
-%---
-%[output:24b0b95f]
-%   data: {"dataType":"text","outputData":{"text":"percent significant 95.00% (baseline)","truncated":false}}
-%---
-%[output:1d166bc8]
-%   data: {"dataType":"text","outputData":{"text":"percent significant 27.60% (Bonferroni)","truncated":false}}
-%---
-%[output:3a89adc1]
-%   data: {"dataType":"text","outputData":{"text":"percent significant 94.70% (Benjamini-Hochberg)","truncated":false}}
-%---
+    fprintf('percent significant %.2f%% (Benjamini-Hochberg)', statSigpU_BH)
+end
