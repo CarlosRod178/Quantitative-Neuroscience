@@ -1,4 +1,4 @@
-%% Parametric Correlation Coefficients
+%% Linear Regressions
 %% Exercises
 
 % Load and plot data
@@ -79,6 +79,10 @@ plot(xnew,y_low,'r--','LineWidth',1.5)
 plot(xnew,y_high,'r--','LineWidth',1.5)
 legend('Data','Fit','CoefCI lower','CoefCI upper')
 title('Linear regression with coefficient CIs')
+
+% Calculate the Pearson's r
+r_PearsonNoisy = corrcoef([dataX dataY_Noisy]);
+fprintf('Pearsons r = %0.4f', r_PearsonNoisy(2))
 %% 
 % 
 % 
