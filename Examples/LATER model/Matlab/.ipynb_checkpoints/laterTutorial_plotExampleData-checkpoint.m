@@ -52,16 +52,6 @@ later_plotHistogram([data{:}], rtBins, 'RT (sec)')
 %     inverse Gaussian, plot a histogram of the inverse RTs. Now the express
 %     saccades are a long tail to the right, and otherwise the distribution
 %     looks pretty close to Gaussian
-
-%%% Note this here, the stuff that was on the left side of the normal plot
-%%% (very fast RT) is now on the right side of the inverse plot.
-%%% Intuitively makes sense as 1/small number equals big number but still.
-%%% These are the small bin parts on the left of the original that don't
-%%% follow the shape. 
-
-%%% Also note!! Since we're doing the inverse we're functionally flipping
-%%% the datset, so in order to put things back in terms of the original
-%%% data while still using the easier 1/RT form, need to use the negatives.
 subplot(5,2,2); cla reset; hold on;
 later_plotHistogram(1./[data{:}], rrtBins, '1/RT (sec)')
 
@@ -100,16 +90,6 @@ n = length(rts);
 cumulativeProbabilities = (1:n)./n;
 
 % Convert to probit scale
-
-%%% The norminv is the same as the probit here which converts things to a
-%%% z-score plot. Break it down into z-scores, one negative SD from the
-%%% mean would have 68/2 = 34 % of the mass, so at negative 1 prob (y axis)
-%%% should get 50-34 = 16
-
-%%% Probit is probability > Z-score. So then plotting that against a
-%%% z-score becomes linear. Data w/ a different SD, you change the slope,
-%%% data w/ different mean shifts rightward or leftward. 
-
 probitCumulativeProbabilities = norminv(cumulativeProbabilities,0,1);
 
 % 1. Give intuition for probit scale
@@ -150,8 +130,6 @@ ylabel('Cum prob');
 %
 % 	Use negative values of 1/RT so it's a true cumulative
 %     function (monotonically increasing)
-%%% Smallest to largest when sorted, then 1/RT flips largest to smallest,
-%%% then - flips again so smallest to largest
 subplot(4,1,3); cla reset; hold on;
 plot(-1./rtsSorted, cumulativeProbabilities, 'ko-');
 xlabel('-1/RT (sec)');
@@ -169,8 +147,6 @@ XTickLabels = [100 expressCutoff 2500];
 XTickValues = -1000./XTickLabels;
 
 % Y-axis labels are probabilities associated with the z-scores
-%%% Note you should be very explicit in keeping track of labels and axes.
-%%% The CumProb 
 YTickLabels = [0.1 1 5 10 50 90 95 99 99.9];
 YTickValues = norminv(YTickLabels./100,0,1);
 
@@ -233,14 +209,3 @@ ylabel('Cum prob');
 
 % Add legend
 legend(plotHandles, labels, 'Location', 'NorthWest')
-
-%%% Is your brain changing the SD at which it makes a decision or the
-%%% mean at which it makes those decisions of the gaussian data
-
-
-%%% Smaller variability leads to a steeper line, whereas increasing the
-%%% bound heights leads to greater variability so a shallower line 
-
-%%% The whole point of this exercise was to show that there is a different
-%%% way in achieving a linear descent approach. Instead of manipulating the
-%%% search and going along various. 

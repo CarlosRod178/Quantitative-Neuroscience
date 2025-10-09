@@ -30,8 +30,11 @@ end
 % Data directory 
 % MODIFY THIS TO FIND THE DATA ON YOUR MACHINE
 if nargin < 2 || isempty(dataDirectory)
-    dataDirectory = fullfile('~jigold', 'Library', 'CloudStorage', ...
-        'Box-Box', 'QNC', 'LATERdata');
+    currentDir = pwd; 
+    dirInd = strfind(currentDir, 'QNC') + 2;
+    dataDirectory = currentDir(1:dirInd);
+    % dataDirectory = fullfile('~jigold', 'Library', 'CloudStorage', ...
+    %     'Box-Box', 'QNC', 'LATERdata');
 end
 
 % Value (in sec) to define upper RT bound for express saccades
@@ -40,7 +43,7 @@ if nargin < 3 || isempty(expressCutoff)
 end
 
 % Load the data from that subject, given the base directory
-load(fullfile(dataDirectory, 'data_mgl', 'F', [subjectTag '_RT.mat']));
+load(fullfile(dataDirectory, [subjectTag '_RT.mat']));
 
 % Define selection criteria ("L" for "logical array"):
 %  1. Correct trials only (basic LATER model doesn't account for errors)
