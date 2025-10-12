@@ -36,7 +36,8 @@
 %   outliers (including express saccades). See later_getData for details
 data = later_getData([], [], 0.2);
 RTs = data{1};
-clear data
+RRTs = 1./RTs;
+% clear data
 
 %%  2. Define the objective function
 %
@@ -60,7 +61,8 @@ clear data
  
 % EXERCISE:
 % laterErrFcn = @(fits) <**YOUR OBJECTIVE FUNCTION HERE AS A FUNCTION OF FITS**>;
-
+%%% Note: fits(1) = mu, fits(2) = sigma
+laterErrFcn = @(fits) -sum(log(normpdf(RRTs, fits(1), fits(2))));
 
 %%  3. Define initial conditions
 %   
@@ -77,7 +79,9 @@ lowerBounds = [0.001 0.001];
 upperBounds = [1000 1000]; 
 
 % EXERCISE:
-% initialValues = [<**ADD INITIAL VALUES HERE**>];
+initialMu = mean(RRTs);
+initialSigma = std(RRTs);
+initialValues = [initialMu initialSigma];
 
 %%  4. Run the fits
 % 
@@ -107,8 +111,40 @@ gs = GlobalSearch;
    
 % Run it, returning the best-fitting parameter values and the negative-
 % log-likelihood returned by the objective function
-[fits(ii,:), nllk] = run(gs,problem);
+% [fits(ii,:), nllk] = run(gs,problem);
+[finalFits, nllk] = run(gs,problem);
 
 %%  5. Evaluate the fits
 %
 %   EXERCISE: How do you know if you got a reasonable answer?
+%%% The fit should reasonably match the data and/or sampling from the
+%%% distribution created by the fit parameters should mimic the data
+
+% Binning for RT and 1/RT plots
+rtBins  = 0:0.02:1.2;
+rrtBins = 0:0.2:10.0; % cutting off long tail of express saccades
+
+% TOP: ALL SELECTED TRIALS
+%  LEFT: RT distribution
+%  Note that:
+%  1. This distribution combines conditions that we expect to have 
+%     an effect on RT, which we will explore below
+%  2. Nonetheless, it still has the basic shape we expect: a small subset 
+%     of very short ("express") RTs, corresponding to the values to the
+%     left of the mode; and then overall a long tail to the right,
+%     indicating quite a few longer RT trials
+subplot(3,1,1); cla reset; hold on;
+later_plotHistogram(RTs, rtBins, 'RT (sec)')
+
+subplot(3,1,2); cla reset; hold on;
+later_plotHistogram(RRTs, rrtBins, 'RT (sec)')
+
+
+subplot(3,1,3); cla reset; hold on;
+y = normpdf(rrtBins, finalFits(1), finalFits(2));
+title('Gaussian From Returned Fits')
+plot(rrtBins,y, LineWidth=2)
+
+
+
+
