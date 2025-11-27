@@ -41,6 +41,7 @@
 %   the number of samples in each experiment.
 %
 % Copyright 2020 by Joshua I. Gold, University of Pennsylvania
+%                                  
 
 %% Define a test distribution with a population mean different than 0
 %  and a std of >1
@@ -127,5 +128,5 @@ for n = 2:max_n
    subplot(4,1,1);
    plot(n, sum(tstats>tinv(0.975, n-1))./num_experiments, 'k.', 'MarkerSize', 8)
    title(sprintf('n=%d, mean(sigma)=%.2f', n, mean(std(samples,[],2))));
-   pause(0.1);
+   pause(0.3);
 end

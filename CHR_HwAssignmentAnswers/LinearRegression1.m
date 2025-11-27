@@ -14,7 +14,7 @@ num = sum(dataX .* dataY) - (sum(dataX)*sum(dataY))/n;
 denom = sum(dataX.^2) - ((sum(dataX))^2/n);
 b = num/denom; 
 a = mean(dataY) - b * mean(dataX); 
-
+`
 % Plot as a reference line
 hold on; 
 hline = refline(b, a); 
